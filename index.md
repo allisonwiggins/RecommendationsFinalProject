@@ -4,7 +4,6 @@ title: Yelp Restaurant Recommendations
 ---
 
 This is the home page
-Inline-style:
 ![alt text](http://www.practicevelocity.com/wp-content/uploads/2016/08/yelp2.png)
 
 
