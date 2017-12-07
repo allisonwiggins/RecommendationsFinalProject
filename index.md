@@ -1,10 +1,11 @@
 ---
-title: The Case of the Italian Olives
+title: Yelp Restaurant Recommendations
+
 ---
 
 This is the home page
 
-## Lets have fun
+## Our Motivation
 
 >here is a quote
 
