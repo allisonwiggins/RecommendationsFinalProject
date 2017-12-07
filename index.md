@@ -2,8 +2,10 @@
 title: Yelp Restaurant Recommendations
 
 ---
+## cs109a Final Project
+### Allison Wiggins, Peter Bearse, Christopher Fenaroli, Daniel Polatajko
 
-This is the home page
+
 ![alt text](http://www.practicevelocity.com/wp-content/uploads/2016/08/yelp2.png)
 
 
