@@ -1,6 +1,7 @@
 ---
-title: trimming the dataframe to only include reviews from users who have at least 10 restaurant reviews in our random sample
+title: EDA
 notebook: EDA.ipynb
+nav_include: 1
 ---
 
 ## Contents
@@ -1286,7 +1287,7 @@ plt.figure()
 
 After doing this, the distribution of the users and restaurants has fewer outliers although it is still skewed to the right.
 
-We also noticed that a lot of restaurant who had a small amount of reviews. Thus, later on in our analysis we had to restrict the restaurants we looked at in the test and validation set according to whether or not the restaurant was present in the train set. 
+We also noticed that a lot of restaurant who had a small amount of reviews. Thus, later on in our analysis we had to restrict the restaurants we looked at in the test and validation set according to whether or not the restaurant was present in the train set.
 
 ### Star Ratings Distribution
 
@@ -1364,4 +1365,3 @@ plt.figure()
 
 
     <matplotlib.figure.Figure at 0x12a02d1d0>
-
