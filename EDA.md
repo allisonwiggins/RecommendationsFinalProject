@@ -19,30 +19,6 @@ nav_include: 1
 
 
 ```python
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-```python
-```
-
-
-
-
-```python
 df_biz = pd.read_json('/Users/alliwiggins/Documents/cs109a/dataset/business.json', lines = True)
 df_check = pd.read_json('/Users/alliwiggins/Documents/cs109a/dataset/checkin.json', lines = True)
 
