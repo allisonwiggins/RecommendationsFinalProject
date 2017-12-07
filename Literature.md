@@ -16,6 +16,10 @@ Chen's blog post describes a method for constructing increasingly powerful recom
 By reference to the Netflix Prize recommendation competition, Bell, Koren and Volinksy's paper describes a general overview of matrix factorisation as well as some of the underlying mathematics. In particular, it was useful to us in comparing the stochastic gradient descent and alternating least squares methods of matrix factorisation and deciding which method would be better for us to implement.
 >Bell, Robert, Yehuda Koren and Chris Volinksy. "Matrix Factorization Techniques for Recommender Systems". Datajobs, Aug. 2009, https://datajobs.com/data-science-repo/Recommender-Systems-[Netflix].pdf.
 
+## **Mackey's** Timeline of the Netflix Prize Competition
+The lecture slides of Mackey describe a timeline of the Netflix Prize competition, and in particular describe the way in which some of the most successful competitors used a stacked linear regression ensembling method to combine matrix factorisation and KNN models to produce one superior model.
+>Mackey, Lester. "The Story of the Netflix Prize: an Ensembler's Tale." Stanford University, Sept. 2012, http://web.stanford.edu/~lmackey/papers/netflix_story-nas11-slides.pdf.
+
 ## **Li's** Book Recommender System
 Li explains how she used a kNN and a Matrix Factorization model to find similarities among book readers in order to predict what a reader would review a new book. This is obviously very similar in structure to our project, as we also were looking at user, or restaurant attendee, in order to predict what he or she would rate a restaurant.
 >Li, Susan. "How Did We Build Book Recommender Systems in An Hour Part 2 — k Nearest Neighbors and Matrix Factorization." Towards Data Science, Medium, Sept. 2017, https://towardsdatascience.com/how-did-we-build-book-recommender-systems-in-an-hour-part-2-k-nearest-neighbors-and-matrix-c04b3c2ef55c.
