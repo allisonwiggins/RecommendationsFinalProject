@@ -1,6 +1,7 @@
 ---
 title: trimming the dataframe to only include reviews from users who have at least 10 restaurant reviews in our random sample
 notebook: EDA.ipynb
+nav_include: 1
 ---
 
 ## Contents
@@ -46,7 +47,7 @@ def get_data_yearly(df, year):
 def remove_border(axes=None, top=False, right=False, left=True, bottom=True):
     """
     Minimize chartjunk by stripping out unnecesasry plot borders and axis ticks
-    
+
     The top/right/left/bottom keywords toggle whether the corresponding plot border is drawn
     """
     ax = axes or plt.gca()
@@ -54,11 +55,11 @@ def remove_border(axes=None, top=False, right=False, left=True, bottom=True):
     ax.spines['right'].set_visible(right)
     ax.spines['left'].set_visible(left)
     ax.spines['bottom'].set_visible(bottom)
-    
+
     #turn off all ticks
     ax.yaxis.set_ticks_position('none')
     ax.xaxis.set_ticks_position('none')
-    
+
     #now re-enable visibles
     if top:
         ax.xaxis.tick_top()
@@ -68,7 +69,7 @@ def remove_border(axes=None, top=False, right=False, left=True, bottom=True):
         ax.yaxis.tick_left()
     if right:
         ax.yaxis.tick_right()
-        
+
 pd.set_option('display.width', 500)
 pd.set_option('display.max_columns', 100)
 ```
@@ -134,7 +135,7 @@ df_rvw_usr_biz = df_rvw_usr.merge(df_biz_subset, on = 'business_id', how = 'left
 dict_checkins = {}
 
 for index, row in df_check_subset.iterrows():
-    for key in row['time'].keys(): 
+    for key in row['time'].keys():
         dict_checkins[row['business_id']] = np.sum(list(row['time'][key].values()))
 
 checkin_series = pd.Series(dict_checkins, name = 'total_checkins')
@@ -567,7 +568,7 @@ plt.figure()
 
 After doing this, the distribution of the users and restaurants has fewer outliers although it is still skewed to the right.
 
-We also noticed that a lot of restaurant who had a small amount of reviews. Thus, later on in our analysis we had to restrict the restaurants we looked at in the test and validation set according to whether or not the restaurant was present in the train set. 
+We also noticed that a lot of restaurant who had a small amount of reviews. Thus, later on in our analysis we had to restrict the restaurants we looked at in the test and validation set according to whether or not the restaurant was present in the train set.
 
 
 
@@ -648,4 +649,3 @@ plt.figure()
 ```python
 
 ```
-
