@@ -1,3 +1,13 @@
+---
+title: trimming the dataframe to only include reviews from users who have at least 10 restaurant reviews in our random sample
+notebook: EDA.ipynb
+nav_include: 1
+---
+
+## Contents
+{:.no_toc}
+*  
+{: toc}
 
 
 
@@ -6,7 +16,6 @@
 
 
 ```python
-# get reviews of restaurants within desired categories
 def get_desired_restaurants(df, category_list):
     desired_rows = []
 
@@ -27,7 +36,6 @@ def get_desired_restaurants(df, category_list):
 
 
 ```python
-# to get all reviews within a certain time period - input string in YYYY format (ex: '2015')
 def get_data_yearly(df, year):
     return df[df['date'].dt.strftime('%Y') == year]
 ```
@@ -39,7 +47,7 @@ def get_data_yearly(df, year):
 def remove_border(axes=None, top=False, right=False, left=True, bottom=True):
     """
     Minimize chartjunk by stripping out unnecesasry plot borders and axis ticks
-    
+
     The top/right/left/bottom keywords toggle whether the corresponding plot border is drawn
     """
     ax = axes or plt.gca()
@@ -47,11 +55,11 @@ def remove_border(axes=None, top=False, right=False, left=True, bottom=True):
     ax.spines['right'].set_visible(right)
     ax.spines['left'].set_visible(left)
     ax.spines['bottom'].set_visible(bottom)
-    
+
     #turn off all ticks
     ax.yaxis.set_ticks_position('none')
     ax.xaxis.set_ticks_position('none')
-    
+
     #now re-enable visibles
     if top:
         ax.xaxis.tick_top()
@@ -61,7 +69,7 @@ def remove_border(axes=None, top=False, right=False, left=True, bottom=True):
         ax.yaxis.tick_left()
     if right:
         ax.yaxis.tick_right()
-        
+
 pd.set_option('display.width', 500)
 pd.set_option('display.max_columns', 100)
 ```
@@ -93,15 +101,11 @@ print("The total number of reviews read in is: ", df_review_samp.shape[0])
 
 
 ```python
-# get users that are represented in the review sample
 df_usr_subset = df_usr_samp[df_usr_samp['user_id'].isin(df_review_samp['user_id'])]
 
-# pare reviews down to those which have user data
 df_rvw_subset = df_review_samp[df_review_samp['user_id'].isin(df_usr_subset['user_id'])]
 
-# now we have two dataframes, each with same users, one has user data and the other has review data
 
-# get business and check data corresponding to what reviews we have in the sample
 df_biz_subset = df_biz[df_biz['business_id'].isin(df_rvw_subset['business_id'])]
 df_check_subset = df_check[df_check['business_id'].isin(df_biz_subset['business_id'])]
 ```
@@ -110,7 +114,6 @@ df_check_subset = df_check[df_check['business_id'].isin(df_biz_subset['business_
 
 
 ```python
-# 64301 unique businesses out of 1880087 total reviews (average 3 reviews for every restaurant)
 print("The total number of unique recorded businesses in this sample is: ", len(df_rvw_subset['business_id'].unique()))
 print("The total number of unique recorded users in this sample is: ", len(df_usr_subset['user_id'].unique()))
 print("The total number of recorded reviews in this sample is: ", df_rvw_subset.shape[0])
@@ -125,31 +128,24 @@ print("The total number of recorded reviews in this sample is: ", df_rvw_subset.
 
 
 ```python
-# this dataframe contains every review, paired with the user who gave the review and the business that was reviewed
 df_rvw_usr = df_usr_subset.merge(df_rvw_subset, on = 'user_id', how = 'left')
 
-# this dataframe contains every review, user giving the review, and characteristics of business being reviewed
-# each row represents a review
 df_rvw_usr_biz = df_rvw_usr.merge(df_biz_subset, on = 'business_id', how = 'left')
 
-# add in total checkin data for each restaurant (measure of popularity)
 dict_checkins = {}
 
 for index, row in df_check_subset.iterrows():
-    for key in row['time'].keys(): 
+    for key in row['time'].keys():
         dict_checkins[row['business_id']] = np.sum(list(row['time'][key].values()))
 
 checkin_series = pd.Series(dict_checkins, name = 'total_checkins')
 df_check_merger = pd.DataFrame(checkin_series).reset_index()
 df_check_merger.columns = ['business_id', 'total_checkins']
 
-# this df contains all user, review, biz, and checkin data
 df_all = df_rvw_usr_biz.merge(df_check_merger, on = 'business_id', how = 'left')
 
-# there is not checkin data for some businesses - choosing to fill those with zeroes
 df_all.fillna(0, inplace = True)
 
-# confirmation that every original review in the subset is contained in this dataframe
 print(df_all.shape[0] == df_rvw_subset.shape[0])
 ```
 
@@ -160,15 +156,10 @@ print(df_all.shape[0] == df_rvw_subset.shape[0])
 
 
 ```python
-# dropping predictors
 
-# drop latitude, longitude, neighborhood - too specific for predictors (stick with state,city as location identifiers)
-# we're tracking names by user ids and restaurant ids, so we can drop names
-# drop neighborhood since most entries don't have values
 
 df_all.drop(['name_x', 'name_y', 'latitude', 'longitude', 'neighborhood'], axis = 1, inplace = True)
 
-# rename columns to remove user, review, business ambiguity (some colnames were the same)
 df_all.columns = ['average_stars_usr', 'compliment_cool', 'compliment_cute',
        'compliment_funny', 'compliment_hot', 'compliment_list',
        'compliment_more', 'compliment_note', 'compliment_photos',
@@ -476,7 +467,6 @@ df_all.head()
 
 
 ```python
-# get subset of this dataframe that contains only restaurants/food stores
 df_rest_all = get_desired_restaurants(df_all, ['Food', 'Restaurants'])
 
 ```
@@ -529,7 +519,6 @@ Because many users did not have a lot of reviews, we decided to take a subset of
 
 
 ```python
-# trimming the dataframe to only include reviews from users who have at least 10 restaurant reviews in our random sample
 usr_rvw_appearances = df_rest_all['user_id'].value_counts()
 df_rest= df_rest_all[df_rest_all['user_id'].isin(usr_rvw_appearances[usr_rvw_appearances>=10].index)]
 ```
@@ -579,7 +568,7 @@ plt.figure()
 
 After doing this, the distribution of the users and restaurants has fewer outliers although it is still skewed to the right.
 
-We also noticed that a lot of restaurant who had a small amount of reviews. Thus, later on in our analysis we had to restrict the restaurants we looked at in the test and validation set according to whether or not the restaurant was present in the train set. 
+We also noticed that a lot of restaurant who had a small amount of reviews. Thus, later on in our analysis we had to restrict the restaurants we looked at in the test and validation set according to whether or not the restaurant was present in the train set.
 
 
 
@@ -660,4 +649,3 @@ plt.figure()
 ```python
 
 ```
-
