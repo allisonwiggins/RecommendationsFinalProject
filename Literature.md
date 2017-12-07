@@ -1,5 +1,5 @@
 ---
-title: Literature Review/Related Work
+title: Literature Review
 nav_include: 2
 ---
 
@@ -8,13 +8,13 @@ nav_include: 2
 *  
 {: toc}
 
-## 
+## Li's Book Recommender System
 Li, Susan. "How Did We Build Book Recommender Systems in An Hour Part 2 — k Nearest Neighbors and Matrix Factorization." Towards Data Science, Medium, Sept. 2017, https://towardsdatascience.com/how-did-we-build-book-recommender-systems-in-an-hour-part-2-k-nearest-neighbors-and-matrix-c04b3c2ef55c.
 >Li explains how she used a kNN and a Matrix Factorization model to find similarities among book readers in order to predict what a reader would review a new book. This is obviously very similar in structure to our project, as we also were looking at user, or restaurant attendee, in order to predict what he or she would rate a restaurant.
 
-##
+## Yeung's Intro to MAtrix Factorization
 Au Yeung, Anthony. "Matrix Factorization: A Simple Tutorial and Implementation in Python." Quuxlabs, Sept. 2010, http://www.quuxlabs.com/blog/2010/09/matrix-factorization-a-simple-tutorial-and-implementation-in-python/#source-code.
->
+>Yeung's blog post gave us an introduction to the theory behind matrix factorization as well as the methodology to implementing such a model in Python. Yeung explains very clearly how matrix factorization can be used to find latent factors underlying the interactions between users and and items. It is essentially allowing us to find what is hidden underneath the data that we could not otherwise quantify or use words to explain.  
 
-##
+## Rosenthal's Matrix Factorization for Movie Recommendations
 Rosenthal, Ethan. "Explicit Matrix Factorization: ALS, SGD, and All That Jazz". Insight Data Science, Medium, Mar. 2016, https://blog.insightdatascience.com/explicit-matrix-factorization-als-sgd-and-all-that-jazz-b00e4d9b21ea.
