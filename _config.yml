@@ -1,6 +1,6 @@
 theme: jekyll-theme-primer
-title: [Home]
-description: [Restaurant Recommendations]
+title: Home
+description: Restaurant Recommendations
 baseurl:
 markdown: kramdown
 kramdown:
