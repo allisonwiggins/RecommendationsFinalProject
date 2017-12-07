@@ -1,47 +1,20 @@
+---
+title: EDA
+notebook: EDA.ipynb
+nav_include: 1
+---
 
-# EDA
-
-
-
-
-
-## Data Description
-
-The data was taken from the Yelp Dataset Challenge in which Yelp aimed to offer students the chance to explore and analyze their data. From this data, we were given 5 json files which contained information about yelp users and their reviews for different business. We are only looking at the restaurants within those business and the users that rated them.
-
-The data was separated into five different JSON files from yelp (business.json, review.json, user.json, checkin.json, and tip.json.)  The review and user files are extremely large, so we decided to only read-in random samples of entries from each dataset stored in lists: sample_rvw and sample_usr. After doing this, we read in 237142 distinct users with 615653 distinct reviews.
-
-We did not find any abnormalities in the data types for each variable, and we did not find any null values. The data was fairly clean.
-
-**Business.json** holds dictionaries that describe location data, attributes and categories for each business. Such attributes include the business rating, takeout offerings, parking accommodations, and hours of operation. Initially, the dataset holds information about businesses outside of the restaurant industry, so we filtered it down to include only data for restaurants.
-
-**Review.json** includes dictionaries for each review given by a user for a certain business. The dictionary includes text data for the actual review and a rating out of 5 stars. It also includes information about the business and votes given by other users on the usefulness, funniness, or “coolness” of the review.
-
-**User.json** includes dictionaries about each user’s profile.  Profile data includes how many compliments a user may have received and the type of compliments received for their reviews. It also includes their name, information about their yelp membership and an array of their friends.
-
-**Checkin.json** includes a dictionary for each time a user “checked in” or stated they were present at a business. Thus, there are vast amounts of entries.
-
-**Tips.json** includes dictionaries for each tip a user gives. A tip is a shorter type of review that includes the user id, business id, the tip text, and likes from different users for that tip.
-
-## Data Exploration
+## Contents
+{:.no_toc}
+*  
+{: toc}
 
 
 
 
 
 
-
-
-
-
-
-
-
-Because the data was so large, we reconciled by taking random samples of the review and users data so that it wazs more manageable. To unify the data from the separate JSON files, a random sample of reviews and users are read in and matched together on a unique user ID.  Then, these observations are matched to business data on a unique business ID.  Finally, these are matched with the variable containing total amount of check-ins on the business being reviewed.  The data is then pared down to contain only restaurants.  These steps leave us with a resulting dataframe in which each row represents a unique restaurant review and has numerous column variables with user, review, and business data describing the observation.  
-
-For now, we decided to exclude tips.json from our EDA and analysis because we believe the data found in tips will offer no new information that cannot be found already in user reviews. Tips are quick suggestions or comments on restaurants that users can give in the form of likes and shorts texts.
-
-
+## Yelp Dataset
 
 ```python
 df_biz = pd.read_json('/Users/alliwiggins/Documents/cs109a/dataset/business.json', lines = True)
@@ -563,12 +536,17 @@ print("The total number of reviews read in is: ", df_review_samp.shape[0])
 
 
 
+```python
+```
+
+
+
+
 
 
 
 
 ```python
-# 64301 unique businesses out of 1880087 total reviews (average 3 reviews for every restaurant)
 print("The total number of unique recorded businesses in this sample is: ", len(df_rvw_subset['business_id'].unique()))
 print("The total number of unique recorded users in this sample is: ", len(df_usr_subset['user_id'].unique()))
 print("The total number of recorded reviews in this sample is: ", df_rvw_subset.shape[0])
@@ -583,7 +561,6 @@ print("The total number of recorded reviews in this sample is: ", df_rvw_subset.
 
 
 ```python
-# explain pairing of final dataset
 ```
 
 
@@ -893,7 +870,6 @@ df_all.head()
 
 
 ```python
-# get subset of this dataframe that contains only restaurants/food stores
 df_rest_all = get_desired_restaurants(df_all, ['Food', 'Restaurants'])
 df_rest_all.head()
 
@@ -1187,8 +1163,6 @@ df_rest_all.head()
 
 ## Exploratory Viz
 
-### Review Count
-
 
 
 ```python
@@ -1220,11 +1194,11 @@ plt.figure()
 
 
 
-![png](EDA_files/EDA_25_1.png)
+![png](EDA_files/EDA_23_1.png)
 
 
 
-![png](EDA_files/EDA_25_2.png)
+![png](EDA_files/EDA_23_2.png)
 
 
 
@@ -1233,12 +1207,9 @@ plt.figure()
 
 Because many users did not have a lot of reviews, we decided to take a subset of the data in which we only looked at users who had given at least 10 reviews so that the user would exist in the train, test, and validation set.
 
-### Reconciliation
-
 
 
 ```python
-# trimming the dataframe to only include reviews from users who have at least 10 restaurant reviews in our random sample
 usr_rvw_appearances = df_rest_all['user_id'].value_counts()
 df_rest= df_rest_all[df_rest_all['user_id'].isin(usr_rvw_appearances[usr_rvw_appearances>=10].index)]
 ```
@@ -1275,11 +1246,11 @@ plt.figure()
 
 
 
-![png](EDA_files/EDA_29_1.png)
+![png](EDA_files/EDA_26_1.png)
 
 
 
-![png](EDA_files/EDA_29_2.png)
+![png](EDA_files/EDA_26_2.png)
 
 
 
@@ -1288,9 +1259,7 @@ plt.figure()
 
 After doing this, the distribution of the users and restaurants has fewer outliers although it is still skewed to the right.
 
-We also noticed that a lot of restaurant who had a small amount of reviews. Thus, later on in our analysis we had to restrict the restaurants we looked at in the test and validation set according to whether or not the restaurant was present in the train set. 
-
-### Star Ratings Distribution
+We also noticed that a lot of restaurant who had a small amount of reviews. Thus, later on in our analysis we had to restrict the restaurants we looked at in the test and validation set according to whether or not the restaurant was present in the train set.
 
 
 
@@ -1310,10 +1279,8 @@ plt.title("Star ratings over all reviews");
 
 
 
-![png](EDA_files/EDA_32_1.png)
+![png](EDA_files/EDA_28_1.png)
 
-
-### Average Reviews
 
 
 
@@ -1353,11 +1320,11 @@ plt.figure()
 
 
 
-![png](EDA_files/EDA_34_2.png)
+![png](EDA_files/EDA_29_2.png)
 
 
 
-![png](EDA_files/EDA_34_3.png)
+![png](EDA_files/EDA_29_3.png)
 
 
 
@@ -1367,3 +1334,9 @@ plt.figure()
 
     <matplotlib.figure.Figure at 0x12a02d1d0>
 
+
+
+
+```python
+
+```
