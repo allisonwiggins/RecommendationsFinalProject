@@ -17,4 +17,5 @@ Yeung's blog post gave us an introduction to the theory behind matrix factorizat
 >Au Yeung, Anthony. "Matrix Factorization: A Simple Tutorial and Implementation in Python." Quuxlabs, Sept. 2010, http://www.quuxlabs.com/blog/2010/09/matrix-factorization-a-simple-tutorial-and-implementation-in-python/#source-code.
 
 ## Rosenthal's Matrix Factorization for Movie Recommendations
+Rosenthal shows how to use Matrix Factorization to predict movie ratings. This is where we learned about both the alternating least squares method and the stochastic gradient descent method. Rosenthal explains both the math behind the method and how to further implement the math in code. We ended up adopting his gradient descent method in order to train our matrix factorization model.
 >Rosenthal, Ethan. "Explicit Matrix Factorization: ALS, SGD, and All That Jazz". Insight Data Science, Medium, Mar. 2016, https://blog.insightdatascience.com/explicit-matrix-factorization-als-sgd-and-all-that-jazz-b00e4d9b21ea.
