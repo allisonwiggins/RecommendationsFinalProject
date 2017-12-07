@@ -2,7 +2,6 @@
 title: Yelp Restaurant Recommendations
 
 ---
-## cs109a Final Project
 ### Allison Wiggins, Peter Bearse, Christopher Fenaroli, Daniel Polatajko
 
 
