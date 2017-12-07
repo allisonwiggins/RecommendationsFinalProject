@@ -1,9 +1,15 @@
+#theme: jekyll-theme-cayman
+#title: [Home]
+#description: [Restaurant Recommendations]
+#baseurl:
+#markdown: kramdown
+#kramdown:
+    #math_engine: mathjax
+    #input: GFM
+    #syntax_highlighter: rouge
+
+title: Home
+description: Cayman is a clean, responsive theme for GitHub Pages.
+show_downloads: true
+google_analytics:
 theme: jekyll-theme-cayman
-title: [Home]
-description: [Restaurant Recommendations]
-baseurl:
-markdown: kramdown
-kramdown:
-    math_engine: mathjax
-    input: GFM
-    syntax_highlighter: rouge
