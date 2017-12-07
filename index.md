@@ -5,7 +5,9 @@ title: Yelp Restaurant Recommendations
 
 This is the home page
 
+<span style="color:blue">some
 ## Our Motivation
+text</span>
 
 >here is a quote
 
