@@ -1,7 +1,6 @@
 ---
-title: EDA
+title: trimming the dataframe to only include reviews from users who have at least 10 restaurant reviews in our random sample
 notebook: EDA.ipynb
-nav_include: 1
 ---
 
 ## Contents
@@ -586,12 +585,6 @@ print("The total number of recorded reviews in this sample is: ", df_rvw_subset.
     The total number of unique recorded businesses in this sample is:  50696
     The total number of unique recorded users in this sample is:  67101
     The total number of recorded reviews in this sample is:  123080
-
-
-
-
-```python
-```
 
 
 
@@ -1226,11 +1219,11 @@ plt.figure()
 
 
 
-![png](EDA_files/EDA_25_1.png)
+![png](EDA_files/EDA_24_1.png)
 
 
 
-![png](EDA_files/EDA_25_2.png)
+![png](EDA_files/EDA_24_2.png)
 
 
 
@@ -1280,11 +1273,11 @@ plt.figure()
 
 
 
-![png](EDA_files/EDA_29_1.png)
+![png](EDA_files/EDA_28_1.png)
 
 
 
-![png](EDA_files/EDA_29_2.png)
+![png](EDA_files/EDA_28_2.png)
 
 
 
@@ -1293,7 +1286,7 @@ plt.figure()
 
 After doing this, the distribution of the users and restaurants has fewer outliers although it is still skewed to the right.
 
-We also noticed that a lot of restaurant who had a small amount of reviews. Thus, later on in our analysis we had to restrict the restaurants we looked at in the test and validation set according to whether or not the restaurant was present in the train set.
+We also noticed that a lot of restaurant who had a small amount of reviews. Thus, later on in our analysis we had to restrict the restaurants we looked at in the test and validation set according to whether or not the restaurant was present in the train set. 
 
 ### Star Ratings Distribution
 
@@ -1315,7 +1308,7 @@ plt.title("Star ratings over all reviews");
 
 
 
-![png](EDA_files/EDA_32_1.png)
+![png](EDA_files/EDA_31_1.png)
 
 
 ### Average Reviews
@@ -1358,11 +1351,11 @@ plt.figure()
 
 
 
-![png](EDA_files/EDA_34_2.png)
+![png](EDA_files/EDA_33_2.png)
 
 
 
-![png](EDA_files/EDA_34_3.png)
+![png](EDA_files/EDA_33_3.png)
 
 
 
@@ -1371,3 +1364,4 @@ plt.figure()
 
 
     <matplotlib.figure.Figure at 0x12a02d1d0>
+
