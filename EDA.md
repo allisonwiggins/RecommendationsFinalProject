@@ -13,64 +13,29 @@ notebook: EDA.ipynb
 
 
 
+## Yelp Dataset
+
+
 
 ```python
-def get_desired_restaurants(df, category_list):
-    desired_rows = []
-
-    for row in df.iterrows():
-        for cat in category_list:
-            # get row if it is in the correct category
-            if cat in row[1]['categories']:
-                desired_rows.append(row[1])
-
-    df_desired = pd.DataFrame(desired_rows)
-
-    # drop duplicates from multiple categories
-    df_desired = df_desired[df_desired['review_id'].duplicated() == False]
-    return(df_desired)           
 ```
 
 
 
 
-```python
-def get_data_yearly(df, year):
-    return df[df['date'].dt.strftime('%Y') == year]
-```
+
+
+
+
+
+
+
+
 
 
 
 
 ```python
-def remove_border(axes=None, top=False, right=False, left=True, bottom=True):
-    """
-    Minimize chartjunk by stripping out unnecesasry plot borders and axis ticks
-    
-    The top/right/left/bottom keywords toggle whether the corresponding plot border is drawn
-    """
-    ax = axes or plt.gca()
-    ax.spines['top'].set_visible(top)
-    ax.spines['right'].set_visible(right)
-    ax.spines['left'].set_visible(left)
-    ax.spines['bottom'].set_visible(bottom)
-    
-    #turn off all ticks
-    ax.yaxis.set_ticks_position('none')
-    ax.xaxis.set_ticks_position('none')
-    
-    #now re-enable visibles
-    if top:
-        ax.xaxis.tick_top()
-    if bottom:
-        ax.xaxis.tick_bottom()
-    if left:
-        ax.yaxis.tick_left()
-    if right:
-        ax.yaxis.tick_right()
-        
-pd.set_option('display.width', 500)
-pd.set_option('display.max_columns', 100)
 ```
 
 
@@ -82,7 +47,504 @@ df_check = pd.read_json('/Users/alliwiggins/Documents/cs109a/dataset/checkin.jso
 
 df_review_samp = pd.read_json('/Users/alliwiggins/Documents/cs109a/dataset/sample_review.json', lines = True)
 df_usr_samp = pd.read_json('/Users/alliwiggins/Documents/cs109a/dataset/sample_user.json', lines = True)
+
 ```
+
+
+
+
+```python
+df_biz.head()
+```
+
+
+
+
+
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>address</th>
+      <th>attributes</th>
+      <th>business_id</th>
+      <th>categories</th>
+      <th>city</th>
+      <th>hours</th>
+      <th>is_open</th>
+      <th>latitude</th>
+      <th>longitude</th>
+      <th>name</th>
+      <th>neighborhood</th>
+      <th>postal_code</th>
+      <th>review_count</th>
+      <th>stars</th>
+      <th>state</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>691 Richmond Rd</td>
+      <td>{'RestaurantsPriceRange2': 2, 'BusinessParking...</td>
+      <td>YDf95gJZaq05wvo7hTQbbQ</td>
+      <td>[Shopping, Shopping Centers]</td>
+      <td>Richmond Heights</td>
+      <td>{'Monday': '10:00-21:00', 'Tuesday': '10:00-21...</td>
+      <td>1</td>
+      <td>41.541716</td>
+      <td>-81.493116</td>
+      <td>Richmond Town Square</td>
+      <td></td>
+      <td>44143</td>
+      <td>17</td>
+      <td>2.0</td>
+      <td>OH</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2824 Milton Rd</td>
+      <td>{'GoodForMeal': {'dessert': False, 'latenight'...</td>
+      <td>mLwM-h2YhXl2NCgdS84_Bw</td>
+      <td>[Food, Soul Food, Convenience Stores, Restaura...</td>
+      <td>Charlotte</td>
+      <td>{'Monday': '10:00-22:00', 'Tuesday': '10:00-22...</td>
+      <td>0</td>
+      <td>35.236870</td>
+      <td>-80.741976</td>
+      <td>South Florida Style Chicken &amp; Ribs</td>
+      <td>Eastland</td>
+      <td>28215</td>
+      <td>4</td>
+      <td>4.5</td>
+      <td>NC</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>337 Danforth Avenue</td>
+      <td>{'BusinessParking': {'garage': False, 'street'...</td>
+      <td>v2WhjAB3PIBA8J8VxG3wEg</td>
+      <td>[Food, Coffee &amp; Tea]</td>
+      <td>Toronto</td>
+      <td>{'Monday': '10:00-19:00', 'Tuesday': '10:00-19...</td>
+      <td>0</td>
+      <td>43.677126</td>
+      <td>-79.353285</td>
+      <td>The Tea Emporium</td>
+      <td>Riverdale</td>
+      <td>M4K 1N7</td>
+      <td>7</td>
+      <td>4.5</td>
+      <td>ON</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>7702 E Doubletree Ranch Rd, Ste 300</td>
+      <td>{}</td>
+      <td>CVtCbSB1zUcUWg-9TNGTuQ</td>
+      <td>[Professional Services, Matchmakers]</td>
+      <td>Scottsdale</td>
+      <td>{'Friday': '9:00-17:00', 'Tuesday': '9:00-17:0...</td>
+      <td>1</td>
+      <td>33.565082</td>
+      <td>-111.916400</td>
+      <td>TRUmatch</td>
+      <td></td>
+      <td>85258</td>
+      <td>3</td>
+      <td>3.0</td>
+      <td>AZ</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4719 N 20Th St</td>
+      <td>{'RestaurantsTableService': False, 'GoodForMea...</td>
+      <td>duHFBe87uNSXImQmvBh87Q</td>
+      <td>[Sandwiches, Restaurants]</td>
+      <td>Phoenix</td>
+      <td>{}</td>
+      <td>0</td>
+      <td>33.505928</td>
+      <td>-112.038847</td>
+      <td>Blimpie</td>
+      <td></td>
+      <td>85016</td>
+      <td>10</td>
+      <td>4.5</td>
+      <td>AZ</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+
+```python
+df_check.head()
+```
+
+
+
+
+
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>business_id</th>
+      <th>time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>7KPBkxAOEtb3QeIL9PEErg</td>
+      <td>{'Thursday': {'21:00': 4, '1:00': 1, '4:00': 1...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>kREVIrSBbtqBhIYkTccQUg</td>
+      <td>{'Monday': {'13:00': 1}, 'Thursday': {'20:00':...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>tJRDll5yqpZwehenzE2cSg</td>
+      <td>{'Monday': {'12:00': 1, '1:00': 1}, 'Saturday'...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>nhZ1HGWD8lMErdn3FuWuTQ</td>
+      <td>{'Sunday': {'18:00': 1, '17:00': 2, '22:00': 1...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>vDoXZGE7p6xAkKQ0XQPvoA</td>
+      <td>{'Thursday': {'15:00': 1}, 'Saturday': {'23:00...</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+
+```python
+df_review_samp.head()
+```
+
+
+
+
+
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>business_id</th>
+      <th>cool</th>
+      <th>date</th>
+      <th>funny</th>
+      <th>review_id</th>
+      <th>stars</th>
+      <th>text</th>
+      <th>useful</th>
+      <th>user_id</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>uYHaNptLzDLoV_JZ_MuzUA</td>
+      <td>0</td>
+      <td>2015-07-27</td>
+      <td>0</td>
+      <td>6JF4WfHgwYrrdZ2VeYtnFw</td>
+      <td>3</td>
+      <td>Stayed here for two nights, costs was £109 per...</td>
+      <td>1</td>
+      <td>Q-3YCVywc03w56wYtGlKvg</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>jQsNFOzDpxPmOurSWCg1vQ</td>
+      <td>0</td>
+      <td>2011-08-10</td>
+      <td>0</td>
+      <td>GiEB_A-m9HuX521WQNbL8w</td>
+      <td>4</td>
+      <td>1st! Place is not closed. There was an issue w...</td>
+      <td>1</td>
+      <td>UG4EKu13JRwzRix6ESINdg</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>jQsNFOzDpxPmOurSWCg1vQ</td>
+      <td>0</td>
+      <td>2012-10-08</td>
+      <td>0</td>
+      <td>ai6O4UqqDqnjO7gfz6jBkA</td>
+      <td>3</td>
+      <td>1st visit had the lo mein...delish!  \n2nd vis...</td>
+      <td>0</td>
+      <td>R6vb0FtmClhfwajs_AuusQ</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>jQsNFOzDpxPmOurSWCg1vQ</td>
+      <td>6</td>
+      <td>2015-02-12</td>
+      <td>5</td>
+      <td>sb7iYaCc6ggpShtElkcwiw</td>
+      <td>3</td>
+      <td>My wife wanted to try this place for awhile no...</td>
+      <td>7</td>
+      <td>6jz_Yr6_AP2WWLbj9gGDpA</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>jQsNFOzDpxPmOurSWCg1vQ</td>
+      <td>0</td>
+      <td>2009-01-24</td>
+      <td>0</td>
+      <td>j51qEbi4hMm6WHGlkt57xg</td>
+      <td>2</td>
+      <td>Haven't eaten at this location in particular, ...</td>
+      <td>1</td>
+      <td>UXZDRVdx8eJqdqb13Bcfcg</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+
+```python
+df_usr_samp.head()
+```
+
+
+
+
+
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>average_stars</th>
+      <th>compliment_cool</th>
+      <th>compliment_cute</th>
+      <th>compliment_funny</th>
+      <th>compliment_hot</th>
+      <th>compliment_list</th>
+      <th>compliment_more</th>
+      <th>compliment_note</th>
+      <th>compliment_photos</th>
+      <th>compliment_plain</th>
+      <th>compliment_profile</th>
+      <th>compliment_writer</th>
+      <th>cool</th>
+      <th>elite</th>
+      <th>fans</th>
+      <th>friends</th>
+      <th>funny</th>
+      <th>name</th>
+      <th>review_count</th>
+      <th>useful</th>
+      <th>user_id</th>
+      <th>yelping_since</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>4.06</td>
+      <td>4</td>
+      <td>0</td>
+      <td>4</td>
+      <td>5</td>
+      <td>0</td>
+      <td>5</td>
+      <td>4</td>
+      <td>5</td>
+      <td>5</td>
+      <td>1</td>
+      <td>22</td>
+      <td>1</td>
+      <td>[2016, 2015]</td>
+      <td>5</td>
+      <td>[Puvuej6lzJ1JOEmtjG7V_Q, fq7CL1myWPYeH0d4bKtsI...</td>
+      <td>3</td>
+      <td>Erica</td>
+      <td>68</td>
+      <td>5</td>
+      <td>YHJIMK_zVH_VY6HCY6bYvg</td>
+      <td>2012-06-08</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3.91</td>
+      <td>7</td>
+      <td>0</td>
+      <td>7</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>8</td>
+      <td>2</td>
+      <td>17</td>
+      <td>0</td>
+      <td>5</td>
+      <td>45</td>
+      <td>[2016, 2017, 2015]</td>
+      <td>6</td>
+      <td>[ZRHPR_mj9A1p6guJ4myTow, DDF6lbrU8TJRS4BtsKkdA...</td>
+      <td>21</td>
+      <td>Andreas</td>
+      <td>375</td>
+      <td>41</td>
+      <td>gGdg9LOh61iUX1ui6suS0w</td>
+      <td>2013-11-25</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>4.07</td>
+      <td>4</td>
+      <td>0</td>
+      <td>4</td>
+      <td>3</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>14</td>
+      <td>[]</td>
+      <td>4</td>
+      <td>[ZAkeWdyAQy37YYb59NCgcg, Cxu5vpkpUWIv0-oEH4lV7...</td>
+      <td>3</td>
+      <td>Ember</td>
+      <td>24</td>
+      <td>41</td>
+      <td>NUEQYD6T-ixWejImJYlDHQ</td>
+      <td>2013-01-20</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4.27</td>
+      <td>3</td>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>6</td>
+      <td>2</td>
+      <td>5</td>
+      <td>0</td>
+      <td>2</td>
+      <td>75</td>
+      <td>[2016, 2017, 2015, 2014]</td>
+      <td>13</td>
+      <td>[Z_0TuoNCeE1xVGZ3peYzwQ, aSCTF9U9nE1yFfQM85mWO...</td>
+      <td>80</td>
+      <td>Robert</td>
+      <td>233</td>
+      <td>343</td>
+      <td>r5aSkafqboBd4L6v8_1Pow</td>
+      <td>2012-02-02</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4.15</td>
+      <td>6</td>
+      <td>0</td>
+      <td>6</td>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>5</td>
+      <td>1</td>
+      <td>4</td>
+      <td>0</td>
+      <td>2</td>
+      <td>7</td>
+      <td>[]</td>
+      <td>2</td>
+      <td>[tgPjX5MplSOXubcTqvCNtw, 6wRnnHSKO05sJ8SALkY8w...</td>
+      <td>3</td>
+      <td>Colleen</td>
+      <td>32</td>
+      <td>19</td>
+      <td>s8bVHRqx6cI8F8HGf3A_og</td>
+      <td>2014-12-18</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
 
 
 
@@ -100,14 +562,11 @@ print("The total number of reviews read in is: ", df_review_samp.shape[0])
 
 
 ```python
-df_usr_subset = df_usr_samp[df_usr_samp['user_id'].isin(df_review_samp['user_id'])]
-
-df_rvw_subset = df_review_samp[df_review_samp['user_id'].isin(df_usr_subset['user_id'])]
-
-
-df_biz_subset = df_biz[df_biz['business_id'].isin(df_rvw_subset['business_id'])]
-df_check_subset = df_check[df_check['business_id'].isin(df_biz_subset['business_id'])]
 ```
+
+
+
+
 
 
 
@@ -127,26 +586,11 @@ print("The total number of recorded reviews in this sample is: ", df_rvw_subset.
 
 
 ```python
-df_rvw_usr = df_usr_subset.merge(df_rvw_subset, on = 'user_id', how = 'left')
-
-df_rvw_usr_biz = df_rvw_usr.merge(df_biz_subset, on = 'business_id', how = 'left')
-
-dict_checkins = {}
-
-for index, row in df_check_subset.iterrows():
-    for key in row['time'].keys(): 
-        dict_checkins[row['business_id']] = np.sum(list(row['time'][key].values()))
-
-checkin_series = pd.Series(dict_checkins, name = 'total_checkins')
-df_check_merger = pd.DataFrame(checkin_series).reset_index()
-df_check_merger.columns = ['business_id', 'total_checkins']
-
-df_all = df_rvw_usr_biz.merge(df_check_merger, on = 'business_id', how = 'left')
-
-df_all.fillna(0, inplace = True)
-
-print(df_all.shape[0] == df_rvw_subset.shape[0])
 ```
+
+
+
+
 
 
     True
@@ -154,21 +598,6 @@ print(df_all.shape[0] == df_rvw_subset.shape[0])
 
 
 
-```python
-
-
-df_all.drop(['name_x', 'name_y', 'latitude', 'longitude', 'neighborhood'], axis = 1, inplace = True)
-
-df_all.columns = ['average_stars_usr', 'compliment_cool', 'compliment_cute',
-       'compliment_funny', 'compliment_hot', 'compliment_list',
-       'compliment_more', 'compliment_note', 'compliment_photos',
-       'compliment_plain', 'compliment_profile', 'compliment_writer', 'cool_usr',
-       'elite', 'fans', 'friends', 'funny_usr', 'review_count_usr', 'useful_usr',
-       'user_id', 'yelping_since', 'business_id', 'cool_rvw', 'date', 'funny_rvw',
-       'review_id', 'stars_rvw', 'text', 'useful_rvw', 'address', 'attributes',
-       'categories', 'city', 'hours', 'is_open', 'postal_code',
-       'review_count_biz', 'stars_biz', 'state', 'total_checkins']
-```
 
 
 
@@ -467,9 +896,297 @@ df_all.head()
 
 ```python
 df_rest_all = get_desired_restaurants(df_all, ['Food', 'Restaurants'])
+df_rest_all.head()
 
 ```
 
+
+
+
+
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>average_stars_usr</th>
+      <th>compliment_cool</th>
+      <th>compliment_cute</th>
+      <th>compliment_funny</th>
+      <th>compliment_hot</th>
+      <th>compliment_list</th>
+      <th>compliment_more</th>
+      <th>compliment_note</th>
+      <th>compliment_photos</th>
+      <th>compliment_plain</th>
+      <th>compliment_profile</th>
+      <th>compliment_writer</th>
+      <th>cool_usr</th>
+      <th>elite</th>
+      <th>fans</th>
+      <th>friends</th>
+      <th>funny_usr</th>
+      <th>review_count_usr</th>
+      <th>useful_usr</th>
+      <th>user_id</th>
+      <th>yelping_since</th>
+      <th>business_id</th>
+      <th>cool_rvw</th>
+      <th>date</th>
+      <th>funny_rvw</th>
+      <th>review_id</th>
+      <th>stars_rvw</th>
+      <th>text</th>
+      <th>useful_rvw</th>
+      <th>address</th>
+      <th>attributes</th>
+      <th>categories</th>
+      <th>city</th>
+      <th>hours</th>
+      <th>is_open</th>
+      <th>postal_code</th>
+      <th>review_count_biz</th>
+      <th>stars_biz</th>
+      <th>state</th>
+      <th>total_checkins</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>3.91</td>
+      <td>7</td>
+      <td>0</td>
+      <td>7</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>8</td>
+      <td>2</td>
+      <td>17</td>
+      <td>0</td>
+      <td>5</td>
+      <td>45</td>
+      <td>[2016, 2017, 2015]</td>
+      <td>6</td>
+      <td>[ZRHPR_mj9A1p6guJ4myTow, DDF6lbrU8TJRS4BtsKkdA...</td>
+      <td>21</td>
+      <td>375</td>
+      <td>41</td>
+      <td>gGdg9LOh61iUX1ui6suS0w</td>
+      <td>2013-11-25</td>
+      <td>3h4ECb0-RTL9_OeYHafMwA</td>
+      <td>0</td>
+      <td>2014-03-14</td>
+      <td>0</td>
+      <td>F_OtJbA1Ka1zb71CqUWt_g</td>
+      <td>5</td>
+      <td>auch von mir 5 sterne. ja, hier ist wirklich a...</td>
+      <td>0</td>
+      <td>Daimlerstr. 104</td>
+      <td>{'GoodForMeal': {'dessert': False, 'latenight'...</td>
+      <td>[Food, Fast Food, Restaurants]</td>
+      <td>Stuttgart</td>
+      <td>{'Monday': '9:00-18:00', 'Tuesday': '9:00-18:0...</td>
+      <td>1</td>
+      <td>70372</td>
+      <td>6</td>
+      <td>5.0</td>
+      <td>BW</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3.91</td>
+      <td>7</td>
+      <td>0</td>
+      <td>7</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>8</td>
+      <td>2</td>
+      <td>17</td>
+      <td>0</td>
+      <td>5</td>
+      <td>45</td>
+      <td>[2016, 2017, 2015]</td>
+      <td>6</td>
+      <td>[ZRHPR_mj9A1p6guJ4myTow, DDF6lbrU8TJRS4BtsKkdA...</td>
+      <td>21</td>
+      <td>375</td>
+      <td>41</td>
+      <td>gGdg9LOh61iUX1ui6suS0w</td>
+      <td>2013-11-25</td>
+      <td>xVmR_J2FjrGNOrWn_y2QKg</td>
+      <td>1</td>
+      <td>2015-04-17</td>
+      <td>0</td>
+      <td>ZWjCil702YKFzQEZSY-_TA</td>
+      <td>3</td>
+      <td>eigentlich mag ich solche großen brauhäuser mi...</td>
+      <td>1</td>
+      <td>Bolzstr. 10</td>
+      <td>{'RestaurantsTableService': True, 'GoodForMeal...</td>
+      <td>[Breweries, Restaurants, Beer Hall, Gastropubs...</td>
+      <td>Stuttgart</td>
+      <td>{'Monday': '11:00-0:00', 'Tuesday': '11:00-0:0...</td>
+      <td>1</td>
+      <td>70173</td>
+      <td>79</td>
+      <td>3.5</td>
+      <td>BW</td>
+      <td>12.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3.91</td>
+      <td>7</td>
+      <td>0</td>
+      <td>7</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>8</td>
+      <td>2</td>
+      <td>17</td>
+      <td>0</td>
+      <td>5</td>
+      <td>45</td>
+      <td>[2016, 2017, 2015]</td>
+      <td>6</td>
+      <td>[ZRHPR_mj9A1p6guJ4myTow, DDF6lbrU8TJRS4BtsKkdA...</td>
+      <td>21</td>
+      <td>375</td>
+      <td>41</td>
+      <td>gGdg9LOh61iUX1ui6suS0w</td>
+      <td>2013-11-25</td>
+      <td>XVk7W6EuiLVSjpIg2npvUw</td>
+      <td>0</td>
+      <td>2016-12-23</td>
+      <td>0</td>
+      <td>NMATy5SPYoW7f5h1DOMFKg</td>
+      <td>3</td>
+      <td>naja. man wird satt. aber viel mehr darf man n...</td>
+      <td>0</td>
+      <td>Felgergasse 7</td>
+      <td>{'NoiseLevel': 'loud'}</td>
+      <td>[Restaurants, Food, German, Breweries]</td>
+      <td>Stuttgart</td>
+      <td>{'Monday': '11:30-23:00', 'Tuesday': '11:30-23...</td>
+      <td>1</td>
+      <td>70372</td>
+      <td>6</td>
+      <td>4.0</td>
+      <td>BW</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3.91</td>
+      <td>7</td>
+      <td>0</td>
+      <td>7</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>8</td>
+      <td>2</td>
+      <td>17</td>
+      <td>0</td>
+      <td>5</td>
+      <td>45</td>
+      <td>[2016, 2017, 2015]</td>
+      <td>6</td>
+      <td>[ZRHPR_mj9A1p6guJ4myTow, DDF6lbrU8TJRS4BtsKkdA...</td>
+      <td>21</td>
+      <td>375</td>
+      <td>41</td>
+      <td>gGdg9LOh61iUX1ui6suS0w</td>
+      <td>2013-11-25</td>
+      <td>DVxOGucZ3NpIeTtbk1ZpAg</td>
+      <td>0</td>
+      <td>2014-01-12</td>
+      <td>0</td>
+      <td>MtPSN7mL5wnliC-CAwYzOA</td>
+      <td>3</td>
+      <td>leider immer mehr leerstände. strauss hat nun ...</td>
+      <td>0</td>
+      <td>Wildunger Str. 2 - 4</td>
+      <td>{'RestaurantsPriceRange2': 2, 'BusinessParking...</td>
+      <td>[Bistros, Shopping, Shopping Centers, Fast Foo...</td>
+      <td>Stuttgart</td>
+      <td>{'Monday': '9:30-20:00', 'Tuesday': '9:30-20:0...</td>
+      <td>1</td>
+      <td>70372</td>
+      <td>15</td>
+      <td>3.5</td>
+      <td>BW</td>
+      <td>14.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>3.91</td>
+      <td>7</td>
+      <td>0</td>
+      <td>7</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td>8</td>
+      <td>2</td>
+      <td>17</td>
+      <td>0</td>
+      <td>5</td>
+      <td>45</td>
+      <td>[2016, 2017, 2015]</td>
+      <td>6</td>
+      <td>[ZRHPR_mj9A1p6guJ4myTow, DDF6lbrU8TJRS4BtsKkdA...</td>
+      <td>21</td>
+      <td>375</td>
+      <td>41</td>
+      <td>gGdg9LOh61iUX1ui6suS0w</td>
+      <td>2013-11-25</td>
+      <td>itdqzog_6HLeQEFQo_PBrA</td>
+      <td>0</td>
+      <td>2015-03-02</td>
+      <td>0</td>
+      <td>xS3-BJK83nxp-hUswwsLPQ</td>
+      <td>4</td>
+      <td>nach der oper kehrten wir noch hier ein, da wi...</td>
+      <td>0</td>
+      <td>Stauffenbergstr. 1</td>
+      <td>{'Alcohol': 'full_bar', 'HasTV': False, 'Noise...</td>
+      <td>[Swabian, Nightlife, German, Bars, Restaurants]</td>
+      <td>Stuttgart</td>
+      <td>{'Monday': '10:00-0:00', 'Tuesday': '10:00-0:0...</td>
+      <td>1</td>
+      <td>70173</td>
+      <td>55</td>
+      <td>3.5</td>
+      <td>BW</td>
+      <td>11.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+## Exploratory Viz
 
 
 
@@ -502,11 +1219,11 @@ plt.figure()
 
 
 
-![png](EDA_files/EDA_12_1.png)
+![png](EDA_files/EDA_23_1.png)
 
 
 
-![png](EDA_files/EDA_12_2.png)
+![png](EDA_files/EDA_23_2.png)
 
 
 
@@ -554,11 +1271,11 @@ plt.figure()
 
 
 
-![png](EDA_files/EDA_15_1.png)
+![png](EDA_files/EDA_26_1.png)
 
 
 
-![png](EDA_files/EDA_15_2.png)
+![png](EDA_files/EDA_26_2.png)
 
 
 
@@ -587,7 +1304,7 @@ plt.title("Star ratings over all reviews");
 
 
 
-![png](EDA_files/EDA_17_1.png)
+![png](EDA_files/EDA_28_1.png)
 
 
 
@@ -628,11 +1345,11 @@ plt.figure()
 
 
 
-![png](EDA_files/EDA_18_2.png)
+![png](EDA_files/EDA_29_2.png)
 
 
 
-![png](EDA_files/EDA_18_3.png)
+![png](EDA_files/EDA_29_3.png)
 
 
 
