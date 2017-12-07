@@ -1,6 +1,6 @@
 theme: jekyll-theme-primer
-title: Home
-description: Keeping Italian Olives Pure!
+title: [Home]
+description: [Restaurant Recommendations]
 baseurl:
 markdown: kramdown
 kramdown:
