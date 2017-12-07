@@ -1,5 +1,5 @@
 ---
-title: trimming the dataframe to only include reviews from users who have at least 10 restaurant reviews in our random sample
+title: EDA
 notebook: EDA.ipynb
 nav_include: 1
 ---
